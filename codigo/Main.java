@@ -9,7 +9,8 @@ public class Main {
     public static void main(String[] args) {
         int tamanhoConjunto = 10;
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("algoritmo.txt"))) {
+        // * Importante * Trocar nome do arquivo a depender do algoritmo
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("codigo/resultados/backtracking.txt"))) { // NOME ARQUIVO
 
             while (true) {
                 List<Long> listaTempo = new ArrayList<>();
@@ -22,7 +23,7 @@ public class Main {
 
                     long startTime = System.currentTimeMillis();
 
-                    String resultado = Algoritmo(dados);
+                    String resultado = Backtracking.solve(dados); // ALGORITMO
 
                     long endTime = System.currentTimeMillis();
 
@@ -33,7 +34,7 @@ public class Main {
                 }
 
                 long mediaTempo = listaTempo.stream().mapToLong(Long::longValue).sum() / tamanhoConjunto;
-                long mediaTempoSegundos = mediaTempo / 1000;
+                double mediaTempoSegundos = mediaTempo / 1000.0;
 
                 String resultadoString = resultados.stream().collect(Collectors.joining(", ", "[", "]"));
                 writer.write(tamanhoConjunto + ", " + mediaTempoSegundos + "s, " + resultadoString + "\n");
@@ -42,15 +43,14 @@ public class Main {
                     break;
                 }
 
+                System.out.println(tamanhoConjunto);
+                System.out.println(mediaTempoSegundos);
+                System.out.println();
+
                 tamanhoConjunto += 1;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    // TODO deletar
-    public static String Algoritmo(Conjunto dados) {
-        return "Resultado do Algoritmo";
     }
 }
