@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Random;
 
 // Classes
-// GeradorConjunto -> gera 10 conjuntos de tamanho N (passado como parametro), retorna uma lista de 10 Conjunto (classe abaixo)
+// GeradorConjunto -> gera conjunto de tamanho N (passado como parametro), retorna uma classe Conjunto
 // Lance -> contém informação do lance de cada empresa
 // Conjunto -> contém a informação da energia produzida e os lances das N empresas
 
@@ -25,7 +25,8 @@ class GeradorConjunto {
 
         return new Conjunto(availableEnergy, bids);
     }
-
+    
+    // Teste
     public static void main(String[] args) {
         int size = 10;
         int setNumber = 2;
