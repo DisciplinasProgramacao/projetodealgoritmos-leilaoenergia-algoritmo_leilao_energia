@@ -1,44 +1,46 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class DivisaoConquista {
 
+    // Função principal para encontrar o valor máximo obtido e calcular megawatts gastos
     public static String solve(Conjunto conjunto) {
-        List<Lance> bestSolution = new ArrayList<>();
-        List<Lance> currentSolution = new ArrayList<>();
-        int[] maxValue = {0};
-
-        List<Lance> lancesOrdenados = conjunto.lances;
-        lancesOrdenados.sort((a, b) -> Integer.compare(b.dinheiro, a.dinheiro)); // Ordena os lances por valor (decrescente)
-
-        divideConquista(lancesOrdenados, conjunto.energiaProduzida, 0, 0, currentSolution, bestSolution, maxValue);
-
-        return formatResult(bestSolution, maxValue[0]);
+        int[] resultado = new int[2];
+        resultado[0] = maxValueHelper(conjunto.lances, conjunto.energiaProduzida, 0); // Valor máximo obtido
+        resultado[1] = conjunto.energiaProduzida - energiaRestante(conjunto.lances); // Megawatts gastos
+        return String.format("[Megawatts utilizado: %d, Dinheiro total: %d]", resultado[1], resultado[0]);
     }
 
-    private static void divideConquista(List<Lance> lances, int energiaDisponivel, int currentIndex, int currentValue, List<Lance> currentSolution, List<Lance> bestSolution, int[] maxValue) {
-        if (currentIndex >= lances.size() || energiaDisponivel <= 0) {
-            if (currentValue > maxValue[0]) {
-                maxValue[0] = currentValue;
-                bestSolution.clear();
-                bestSolution.addAll(new ArrayList<>(currentSolution));
-            }
-            return;
+    // Função auxiliar para calcular o valor máximo e atualizar a lista de lances
+    private static int maxValueHelper(List<Lance> lances, int energiaDisponivel, int megawattsGastos) {
+        // Caso base: se não há mais lances ou não há mais energia para vender
+        if (lances.size() == 0 || energiaDisponivel == 0) {
+            return 0;
         }
 
-        Lance lance = lances.get(currentIndex);
+        Lance lanceAtual = lances.get(lances.size() - 1);
 
-        if (energiaDisponivel >= lance.megawatts) {
-            currentSolution.add(lance);
-            divideConquista(lances, energiaDisponivel - lance.megawatts, currentIndex + 1, currentValue + lance.dinheiro, currentSolution, bestSolution, maxValue);
-            currentSolution.remove(currentSolution.size() - 1);
+        // Se o lance atual consome mais energia do que a energia total disponível,
+        // não podemos incluí-lo na solução
+        if (lanceAtual.megawatts > energiaDisponivel) {
+            lances.remove(lanceAtual);
+            return maxValueHelper(lances, energiaDisponivel, megawattsGastos);
         }
 
-        divideConquista(lances, energiaDisponivel, currentIndex + 1, currentValue, currentSolution, bestSolution, maxValue);
+        // Caso contrário, calcular o máximo entre incluir ou não incluir o lance atual
+        lances.remove(lanceAtual);
+        int incluirLance = lanceAtual.dinheiro + maxValueHelper(lances, energiaDisponivel - lanceAtual.megawatts, megawattsGastos + lanceAtual.megawatts);
+        int naoIncluirLance = maxValueHelper(lances, energiaDisponivel, megawattsGastos);
+
+        return Math.max(incluirLance, naoIncluirLance);
     }
 
-    private static String formatResult(List<Lance> solution, int maxValue) {
-        int totalMegawatts = solution.stream().mapToInt(l -> l.megawatts).sum();
-        return String.format("[Megawatts utilizado: %d, Dinheiro total: %d]", totalMegawatts, maxValue);
+    // Função auxiliar para calcular a energia restante após a seleção de lances
+    private static int energiaRestante(List<Lance> lances) {
+        int energiaGasta = 0;
+        for (Lance lance : lances) {
+            energiaGasta += lance.megawatts;
+        }
+        return energiaGasta;
     }
+
 }

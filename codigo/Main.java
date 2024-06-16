@@ -10,7 +10,7 @@ public class Main {
         int tamanhoConjunto = 10;
 
         // * Importante * Trocar nome do arquivo a depender do algoritmo
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("codigo/resultados/backtracking.txt"))) { // NOME ARQUIVO
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("F://FPAAAAAAAAAAAAAA/codigo/resultados/divisaoconquista.txt"))) { // NOME ARQUIVO
 
             while (true) {
                 List<Long> listaTempo = new ArrayList<>();
@@ -23,7 +23,7 @@ public class Main {
 
                     long startTime = System.currentTimeMillis();
 
-                    String resultado = Backtracking.solve(dados); // ALGORITMO
+                    String resultado = DivisaoConquista.solve(dados); // ALGORITMO
 
                     long endTime = System.currentTimeMillis();
 
