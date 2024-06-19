@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Backtracking {
 
@@ -34,18 +33,15 @@ public class Backtracking {
     private static String formatResult(List<Lance> solution, int maxValue) {
         int totalMegawatts = solution.stream().mapToInt(l -> l.megawatts).sum();
 
-        // String interestedParties = solution.stream().map(l -> l.interessada).collect(Collectors.joining(", "));
-        // return String.format("[Interessadas: %s, Megawatts total utilizado: %d, Dinheiro total: %d]", interestedParties, totalMegawatts, maxValue);
-
         return String.format("[Megawatts utilizado: %d, Dinheiro total: %d]", totalMegawatts, maxValue);
 
     }
 
     // Testando o Algoritmo
-    // public static void main(String[] args) {
-    //     Conjunto conjunto = GeradorConjunto.generateTestSet(10);
-    //     conjunto = GeradorConjunto.generateTestSet(10);
-    //     String resultado = solve(conjunto);
-    //     System.out.println(resultado);
-    // }
+    public static void main(String[] args) {
+        Conjunto conjunto = GeradorConjunto.generateTestSet(10);
+        conjunto = GeradorConjunto.generateTestSet(10);
+        String resultado = solve(conjunto);
+        System.out.println(resultado);
+    }
 }
