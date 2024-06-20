@@ -10,7 +10,7 @@ public class Main {
         int tamanhoConjunto = 10;
 
         // * Importante * Trocar nome do arquivo a depender do algoritmo
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("F://FPAAAAAAAAAAAAAA/codigo/resultados/divisaoconquista.txt"))) { // NOME ARQUIVO
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("resultados/NOMEALGORITMO.txt"))) { // NOME ARQUIVO
 
             while (true) {
                 List<Long> listaTempo = new ArrayList<>();
@@ -19,8 +19,6 @@ public class Main {
                 for (int i = 0; i < 10; i++) {
                     Conjunto dados = GeradorConjunto.generateTestSet(tamanhoConjunto);
                     
-                    // TODO fazer logica de ordenar valores (crescente)
-
                     long startTime = System.currentTimeMillis();
 
                     String resultado = DivisaoConquista.solve(dados); // ALGORITMO
